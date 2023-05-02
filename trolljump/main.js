@@ -113,8 +113,8 @@ function Render(){
         ctx.drawImage(lula, lulax[i], canvas.height / 2 + 64, 64, 64)
     }
     ctx.font = "48px Arial";
-    ctx.textAlign = "center"
-    ctx.fillText(ponto.toString(), canvas.width / 2, 48)
+    ctx.textAlign = "left"
+    ctx.fillText(ponto.toString(), 48, 48)
 }
 
 
