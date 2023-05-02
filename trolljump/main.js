@@ -5,7 +5,7 @@ const ground = document.getElementById("ground")
 const ceu = document.getElementById("ceu")
 const lula = document.getElementById("lula")
 
-var positionX = canvas.width/2 - 32;
+var positionX = 64;
 var positionY = canvas.height/2+64;
 var velocityX = 0.0;
 var velocityY = 0.0;
