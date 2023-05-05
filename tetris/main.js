@@ -1,11 +1,17 @@
 const canvas = document.getElementById("canvas")
 const ctx = canvas.getContext("2d")
 
-var gridx = 16
-var gridy = 16
+if(window.innerHeight<window.innerWidth){
+    canvas.height = window.innerHeight-11
+    canvas.width = canvas.height*(16/21)
+}
+else if(window.innerWidth < window.innerHeight){
+    canvas.width = window.innerWidth-11
+    canvas.height = canvas.width*(21/16)
+}
 
-canvas.width = gridx * 16
-canvas.height = gridy * 21
+var gridx = canvas.width/16
+var gridy = canvas.height/21
 
 window.addEventListener("touchstart", toca, {passive: false})
 window.addEventListener("keydown", tleca, {passive: false})
@@ -151,39 +157,6 @@ var Q = [[[0, 0, 0, 0],
 [0, 8, 8, 0], 
 [0, 8, 0, 0]]]
 
-window.addEventListener(
-    'load',
-    function () {
-
-        fullscreenify(canvas);
-    },
-    false
-);
-
-function fullscreenify(canvas) {
-    var style = canvas.getAttribute('style') || '';
-    
-    window.addEventListener('resize', function () {resize(canvas);}, false);
-
-    resize(canvas);
-
-    function resize(canvas) {
-        var scale = {x: 1, y: 1};
-        scale.x = (window.innerWidth - 10) / canvas.width;
-        scale.y = (window.innerHeight - 10) / canvas.height;
-        
-        if (scale.x < 1 || scale.y < 1) {
-            scale = '1, 1';
-        } else if (scale.x < scale.y) {
-            scale = scale.x + ', ' + scale.x;
-        } else {
-            scale = scale.y + ', ' + scale.y;
-        }
-        
-        canvas.setAttribute('style', style + ' ' + '-ms-transform-origin: center top; -webkit-transform-origin: center top; -moz-transform-origin: center top; -o-transform-origin: center top; transform-origin: center top; -ms-transform: scale(' + scale + '); -webkit-transform: scale3d(' + scale + ', 1); -moz-transform: scale(' + scale + '); -o-transform: scale(' + scale + '); transform: scale(' + scale + ');');
-    }
-}
-
 var cores = ["rgba(255, 255, 255, 0)", "black", "blue", "orange", "cyan", "yellow", "purple", "green", "red"]
 var lista = [J, L, I, O, T, P, Q]
 
@@ -248,7 +221,7 @@ function toca(event){
 
 function tleca(event){
     
-    if(event.key == "w" || event.key == "arrowUp"){
+    if(event.key == "w" || event.keyCode == 38){
         roda++
         if(roda>3) roda = 0
         for(var y = 0; y<4; y++){
@@ -265,11 +238,11 @@ function tleca(event){
             }
         }
     }
-    if(event.key == "a" || event.key == "arrowLeft") {
+    if(event.key == "a" || event.keyCode == 38) {
         left = true
         right = false
     }
-    else if (event.key == "d" || event.key == "arrowRight"){
+    else if (event.key == "d" || event.keyCode == 39){
         right = true
         left = false
     }
