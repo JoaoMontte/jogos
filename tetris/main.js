@@ -10,8 +10,8 @@ else if(window.innerWidth < window.innerHeight){
     canvas.height = canvas.width*(21/16)
 }
 
-var gridx = canvas.width/16
-var gridy = canvas.height/21
+var gridx = Math.ceil(canvas.width/16)
+var gridy = Math.ceil(canvas.height/21)
 
 window.addEventListener("touchstart", toca, {passive: false})
 window.addEventListener("keydown", tleca, {passive: false})
