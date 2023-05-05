@@ -10,8 +10,8 @@ else if(window.innerWidth < window.innerHeight){
     canvas.height = canvas.width*(21/16)
 }
 
-var gridx = Math.ceil(canvas.width/16)
-var gridy = Math.ceil(canvas.height/21)
+var gridx = canvas.width/16
+var gridy = canvas.height/21
 
 window.addEventListener("touchstart", toca, {passive: false})
 window.addEventListener("keydown", tleca, {passive: false})
@@ -382,7 +382,7 @@ function render(){
     for (var y = 0; y < map.length; y++){
         for (var x = 0; x < map[0].length; x++) {
             ctx.fillStyle = cores[map[y][x]]
-            ctx.fillRect(x * gridx, y * gridy, gridx, gridy)
+            ctx.fillRect(x * gridx, y * gridy, Math.ceil(gridx), Math.ceil(gridy))
         }
     }
     ctx.fillStyle = "black"
@@ -390,7 +390,7 @@ function render(){
     for(var y = 0; y<4; y++){
         for(var x=0; x<4; x++){
             ctx.fillStyle = cores[proxima[0][y][x]]
-            ctx.fillRect(gridx*11+(x*gridx), gridy + y * gridy, gridx, gridy)
+            ctx.fillRect(gridx*11+(x*gridx), gridy + y * gridy, Math.ceil(gridx), Math.ceil(gridy))
         }
     }
     ctx.globalAlpha = amarelo
