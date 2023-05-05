@@ -238,7 +238,7 @@ function tleca(event){
             }
         }
     }
-    if(event.key == "a" || event.keyCode == 38) {
+    if(event.key == "a" || event.keyCode == 37) {
         left = true
         right = false
     }
