@@ -1,10 +1,12 @@
 const canvas = document.getElementById("canvas")
 const ctx = canvas.getContext("2d")
+const trollface = document.getElementById("trollface")
 
 //variaveis
 var px = 250
 var py = 250
 var pa = 0
+var pvel = 2
 
 var map = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 1, 0, 0, 0, 0, 1, 0, 0, 1],
@@ -25,11 +27,17 @@ var tamanhoy = 10
 
 var up = down = left = right = troca = left1 = right1 = false
 
-var raionumero = 100
+var raionumero = 500
 var fov = Math.PI / 3
 var renderdistance = 400
 
 var cena = "3d"
+
+var r = 0
+var g = 0
+var b = 0
+
+
 
 window.addEventListener('keydown', function(e){
     if (e.key === "ArrowRight"){
@@ -98,21 +106,21 @@ function Input(){
         }
     }
     if(up == true){
-        px += Math.cos(pa)
-        py -= Math.sin(pa)
+        px += Math.cos(pa) * pvel
+        py -= Math.sin(pa) * pvel
         //floor arredonda pra baixo
         //ceil arredonda pra cima
         if(map[Math.floor((py) / gridy)][Math.floor((px) / gridx)] == 1){
-            px -= Math.cos(pa)
-            py += Math.sin(pa)
+            px -= Math.cos(pa) * pvel
+            py += Math.sin(pa) * pvel
         }
     }
     if(down == true){
-        px -= Math.cos(pa)
-        py += Math.sin(pa)
+        px -= Math.cos(pa) * pvel
+        py += Math.sin(pa) * pvel
         if(map[Math.floor((py) / gridy)][Math.floor((px) / gridx)] == 1){
-            px += Math.cos(pa)
-            py -= Math.sin(pa)
+            px += Math.cos(pa) * pvel
+            py -= Math.sin(pa) * pvel
         }
     }
     if(left1 == true){
@@ -120,16 +128,16 @@ function Input(){
         if(angle > Math.PI * 2){
             angle -= Math.PI * 2
         }
-        px -= Math.cos(angle)
-        py += Math.sin(angle)
+        px -= Math.cos(angle) * pvel
+        py += Math.sin(angle) * pvel
     }
     if(right1 == true){
         var angle = pa - Math.PI / 2
         if(angle > Math.PI * 2){
             angle -= Math.PI * 2
         }
-        px += Math.cos(angle)
-        py -= Math.sin(angle)
+        px += Math.cos(angle) * pvel
+        py -= Math.sin(angle) * pvel
     }
 }
 
@@ -144,6 +152,9 @@ function drawMap(){
 }
 
 function Ray(){
+    var vertical = horizontal = false
+    var offset = 0
+    var offsetantes = 0
     var ra = pa + (fov / 2)
     if (ra > Math.PI * 2) {
         ra -= Math.PI * 2
@@ -215,11 +226,13 @@ function Ray(){
         if (Math.sqrt((rx1 - px) ** 2 + (ry1 - py) ** 2) < Math.sqrt((rx2 - px) ** 2 + (ry2 - py) ** 2)) {
             rx = rx1
             ry = ry1
-            ctx.fillStyle = "#d8e7e5"
+            offset = rx % gridx
+            vertical = true
         } else if (Math.sqrt((rx1 - px) ** 2 + (ry1 - py) ** 2) > Math.sqrt((rx2 - px) ** 2 + (ry2 - py) ** 2)) {
             rx = rx2
             ry = ry2
-            ctx.fillStyle = "#78818c"
+            offset = ry % gridy
+            horizontal = true
         }
         /**ctx.fillStyle = "#00ff00"
         ctx.beginPath()
@@ -236,19 +249,17 @@ function Ray(){
         }
 
         var hipotenusa = Math.sqrt((rx-px)*(rx-px) + (ry-py)*(ry-py))* Math.cos(ca)
-
         //parede
         var altura = (gridy * canvas.height)/hipotenusa
-        if (altura > canvas.height){
-            altura = canvas.height
-        }
 
-        ctx.fillRect(canvas.width / raionumero * i,  (canvas.height/2) - (altura/2), canvas.width / raionumero, altura)
+        //ctx.fillRect(canvas.width / raionumero * i,  (canvas.height/2) - (altura/2), canvas.width / raionumero, altura)
+        ctx.drawImage(trollface, Math.floor(offset * (trollface.width/gridx)), 0, 1, trollface.height, i * (canvas.width/raionumero),  (canvas.height/2) - (altura/2), canvas.width / raionumero, altura)
 
         ra -= fov/raionumero
         if(ra < 0){
             ra += Math.PI * 2
         }
+        offsetantes = offset
     }
 
 }
