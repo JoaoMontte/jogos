@@ -86,11 +86,13 @@ function draw(){
         reflexox = -1
         ba = 2 * Math.PI / 3 + ((Math.PI / 150) * (by - p1y))
         bx = p1x + raio + largura
+        reflexoy = 1
     }
     if(bx + raio >= p2x && bx <= p2x + largura && by + raio >= p2y && by <= p2y + altura){
         reflexox = 1
         ba = 2 * Math.PI / 3 + ((Math.PI / 150) * (by - p2y))
         bx = p2x - raio
+        reflexoy = 1
     }
     if (bx < -100){
         ponto2++
