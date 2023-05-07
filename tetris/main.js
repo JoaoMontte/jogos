@@ -393,7 +393,7 @@ function render(){
             ctx.fillRect(x * gridx, y * gridy, Math.ceil(gridx), Math.ceil(gridy))
         }
     }
-    ctx.fillStyle = "black"
+    ctx.fillStyle = cores[1]
     ctx.fillRect(gridx*12, 0, gridx*5, canvas.height)
     for(var y = 0; y<4; y++){
         for(var x=0; x<4; x++){
@@ -416,8 +416,8 @@ function render(){
     ctx.font = "30px Arial"
     ctx.textAlign = "center"
     ctx.fillText(pt.toString(), canvas.width/2, 30)
-    angleA += 5;                                               // increase angles
-    angleB += 5;
+    angleA += vel/42*2;                                               // increase angles
+    angleB += vel/42*2;
 }
 
 function main(){
