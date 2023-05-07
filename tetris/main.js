@@ -393,7 +393,7 @@ function render(){
             ctx.fillRect(x * gridx, y * gridy, Math.ceil(gridx), Math.ceil(gridy))
         }
     }
-    ctx.fillStyle = cores[1]
+    ctx.fillStyle = gr
     ctx.fillRect(gridx*12, 0, gridx*5, canvas.height)
     for(var y = 0; y<4; y++){
         for(var x=0; x<4; x++){
