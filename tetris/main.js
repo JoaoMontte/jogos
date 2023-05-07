@@ -185,6 +185,9 @@ var vel = 42
 
 var cena = "jogo"
 
+var angleA = Math.random() * 360
+var angleB = Math.random() * 360
+
 function toca(event){
     var x = event.targetTouches[0].pageX
     var y = event.targetTouches[0].pageY
@@ -379,6 +382,11 @@ function update(){
 }
 
 function render(){
+    gr = ctx.createLinearGradient(0, 0, canvas.width, canvas.width / 2);
+
+        gr.addColorStop(0, "hsl(" + (angleA % 360) + ",100%, 50%)");   // start color
+        gr.addColorStop(1, "hsl(" + (angleB % 360) + ",100%, 50%)");   // end color
+        cores[1] = gr
     for (var y = 0; y < map.length; y++){
         for (var x = 0; x < map[0].length; x++) {
             ctx.fillStyle = cores[map[y][x]]
@@ -408,6 +416,8 @@ function render(){
     ctx.font = "30px Arial"
     ctx.textAlign = "center"
     ctx.fillText(pt.toString(), canvas.width/2, 30)
+    angleA += 5;                                               // increase angles
+    angleB += 5;
 }
 
 function main(){
