@@ -53,8 +53,8 @@ var map =
 var tile = 64
 var mapylength = map.length
 var mapxlength = map[0].length
-var mapheight = map.length * tile
-var mapwidth = map[0].length * tile
+var mapheight = map.length * tile - 1
+var mapwidth = map[0].length * tile - 1
 var meio = Math.floor(canvas.height/2)
 
 //player
