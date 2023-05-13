@@ -384,8 +384,8 @@ function move(){
 }
 function main(){
 
-    px = s.x * tile
-    py = s.y * tile
+    px = s.x * tile + (tile/2)
+    py = s.y * tile + (tile/2)
     requestAnimFrame()
     for(var y = 0; y < canvas.width*meio*4; y+= 4){
         offscreenCanvasPixels.data[y] = 100
