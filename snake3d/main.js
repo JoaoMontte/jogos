@@ -423,7 +423,7 @@ function main(){
         ctx.fillStyle = "red"
         ctx.font = "30px Arial";
         ctx.textAlign = "center"
-        ctx.fillText("PERDEU OTARIO", canvas.width / 2, canvas.height / 2)
+        ctx.fillText("PERDEU!!!", canvas.width / 2, canvas.height / 2)
 
         ctx.fillRect(150, 300, 200, 70)
         ctx.fillStyle = "black"
