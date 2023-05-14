@@ -447,10 +447,10 @@ function toca(event){
     var x = event.targetTouches[0].pageX
     var y = event.targetTouches[0].pageY
     if(y > canvas.height/2 && x < canvas.width/2) {
-        left = true
+        right = true
     }
     else if (y > canvas.height/2 && x > canvas.width/2){
-        right = true
+        left = true
     }
 }
 window.addEventListener("keydown", input, false)
