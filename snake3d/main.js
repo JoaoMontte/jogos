@@ -28,6 +28,14 @@ floor.onload = () => {
     imageData = ctx.getImageData(0, 0, floor.width, floor.height).data
 }
 
+var corpo = new Image()
+corpo.src = "corpo.png"
+corpo.crossOrigin = "Anonymous";
+corpo.onload = () => {
+    ctx.drawImage(corpo, 0, 0, corpo.width, corpo.height)
+    corpoData = ctx.getImageData(0, 0, corpo.width, corpo.height).data
+}
+
 var trollData
 var trollface = new Image()
 trollface.src = "parede.png"
@@ -73,6 +81,11 @@ var ra = pa
 var distproj = (canvas.width/2) / Math.tan(fov/2)
 var pvel = 5
 var direita = esquerda = false
+var move = false
+var cena = "jogo"
+var gameoverx = 0
+var gameovery = 0
+var gameovervel = 10
 
 function fixAngle(angle){
     if(angle < 0) angle+=Math.PI*2
@@ -99,7 +112,8 @@ class Snake{
         this.targetAngle = pa
     }
     update(){
-        if (t <= fps/2){
+        t--
+        if (t <= 30){
             //input
             if(left == true && this.dir != [1, 0]){
                 this.agora--
@@ -107,6 +121,7 @@ class Snake{
                 this.dir = this.direcoes[this.agora]
                 this.targetAngle = fixAngle(pa + Math.PI/2)
                 esquerda = true
+                move = true
             }
             else if(right == true && this.dir != [-1, 0]){
                 this.agora++
@@ -114,17 +129,16 @@ class Snake{
                 this.dir = this.direcoes[this.agora]
                 this.targetAngle = fixAngle(pa - Math.PI/2)
                 direita = true
+                move = true
             }
             up = down = left = right = false
 
             t = fps
-
+            map[this.taily[this.tamanho-1]][this.tailx[this.tamanho-1]] = 0
             if(this.tamanho > 0) {
                 for (var i = this.tamanho; i >= 0; i--) {
-                    //map[this.taily[i]][this.tailx[i]] = 0
                     this.tailx[i] = this.tailx[i -1]
                     this.taily[i] = this.taily[i -1]
-                    //map[this.taily[i]][this.tailx[i]] = 2
                     if(i == 0) {
                         this.tailx[i] = this.x
                         this.taily[i] = this.y
@@ -132,9 +146,10 @@ class Snake{
                 }
             }
 
+            move = true
             this.x += this.dir[0]
             this.y += this.dir[1]
-            if(this.x + 1 == fx && this.y == fy || this.x - 1 == fx && this.y == fy || this.y - 1 == fy && this.x == fx || this.y + 1 == fy && this.x == fx){
+            if(this.x == fx && this.y == fy){
                 map[fy][fx] = 0
                 fx = Math.floor(Math.random() * (map[0].length - 2)) + 1
                 fy = Math.floor(Math.random() * (map.length - 2)) + 1
@@ -144,28 +159,22 @@ class Snake{
                 this.tailx.push(this.x)
                 this.taily.push(this.y)
             }
-        }
-    }
-    draw(){
-        ctx.fillRect(this.x, this.y, gridx, gridy)
-        if(this.tamanho > 0){
-            for(var i = 0; i < this.tamanho; i ++) {
-                ctx.fillRect(this.tailx[i], this.taily[i], gridx, gridy)
+            if(this.x < 1 || this.y < 1 || this.x > map[0].length - 2 || this.y > map.length - 2){
+                cena = "gameover"
+            }
+            for(var i = 0; i < this.tamanho; i++){
+                if(this.x == this.tailx[i] && this.y == this.taily[i]){
+                    cena = "gameover"
+                }
             }
         }
     }
-    input(e){
-        if(e.key == "w"){
-            up = true
-        }
-        if (e.key == "s"){
-            down = true
-        }
-        if (e.key == "a"){
-            left = true
-        }
-        if (e.key == "d"){
-            right = true
+    draw() {
+        ctx.fillRect(this.x, this.y, gridx, gridy)
+        if (this.tamanho > 0) {
+            for (var i = 0; i < this.tamanho; i++) {
+                ctx.fillRect(this.tailx[i], this.taily[i], gridx, gridy)
+            }
         }
     }
 }
@@ -254,6 +263,9 @@ function Ray(){
                     case 2:
                         data1 = trollData
                         break;
+                    case 3:
+                        data1 = corpoData
+                        break;
                 }
             }
             else{
@@ -282,6 +294,9 @@ function Ray(){
                         break;
                     case 2:
                         data2 = trollData
+                        break;
+                    case 3:
+                        data2 = corpoData
                         break;
                 }
             }
@@ -341,96 +356,103 @@ function Ray(){
 
     }
 }
-
-function move(){
-    if(front){
-        if(map[Math.floor((py-(Math.sin(pa) * pvel * 7)) / tile)][Math.floor((px) / tile)] == 0){
-            py -= Math.sin(pa) * pvel
-        }
-        if(map[Math.floor((py) / tile)][Math.floor((px+(Math.cos(pa) * pvel * 7)) / tile)] == 0){
-            px += Math.cos(pa) * pvel
-        }
-    }
-    if(back){
-        if(map[Math.floor((py+(Math.sin(pa) * pvel * 2)) / tile)][Math.floor((px) / tile)] == 0){
-            py += Math.sin(pa) * pvel
-        }
-        if(map[Math.floor((py) / tile)][Math.floor((px-(Math.cos(pa) * pvel * 2)) / tile)] == 0){
-            px -= Math.cos(pa) * pvel
-        }
-    }
-    if(strokel){
-        var ca = fixAngle(pa-(Math.PI/2))
-        if(map[Math.floor((py+(Math.sin(ca) * pvel * 4)) / tile)][Math.floor((px) / tile)] == 0){
-            py += Math.sin(ca) * pvel
-        }
-        if(map[Math.floor((py) / tile)][Math.floor((px-(Math.cos(ca) * pvel * 4)) / tile)] == 0){
-            px -= Math.cos(ca) * pvel
-        }
-    }
-    if(stroker){
-        var ca = fixAngle(pa+(Math.PI/2))
-        if(map[Math.floor((py+(Math.sin(ca) * pvel * 4)) / tile)][Math.floor((px) / tile)] == 0){
-            py += Math.sin(ca) * pvel
-        }
-        if(map[Math.floor((py) / tile)][Math.floor((px-(Math.cos(ca) * pvel * 4)) / tile)] == 0){
-            px -= Math.cos(ca) * pvel
-        }
-    }
-    if(left) pa = fixAngle(pa+0.1)
-    if(right) pa = fixAngle(pa-0.1)
-    if(up) {meio += 20}
-    if(down) meio -= 20
-}
 function main(){
+    if(cena == "jogo") {
 
-    px = s.x * tile + (tile/2)
-    py = s.y * tile + (tile/2)
-    requestAnimFrame()
-    for(var y = 0; y < canvas.width*meio*4; y+= 4){
-        offscreenCanvasPixels.data[y] = 100
-        offscreenCanvasPixels.data[y+1] = 100
-        offscreenCanvasPixels.data[y+2] = 255
-        offscreenCanvasPixels.data[y+3] = 255
-    }
-    if(direita == false && esquerda == false)s.update()
-    if(direita == true) pa = fixAngle(pa-(Math.PI / 2 / 10))
-    if(pa-(Math.PI/2/10) < s.targetAngle && pa+(Math.PI/2/10) > s.targetAngle) {
-        direita = false
-        pa = s.targetAngle
-    }
-    if(esquerda == true) pa = fixAngle(pa+(Math.PI / 2 / 30))
-    if(pa+(Math.PI/2/10) > s.targetAngle && pa-(Math.PI/2/10) < s.targetAngle) {
-        esquerda = false
-        pa = s.targetAngle
-    }
-    Ray()
-    ctx.putImageData(offscreenCanvasPixels, 0, 0);
-
-    ctx2.clearRect(0, 0, canvas2.width, canvas2.height)
-    for(var y = 0; y < map.length; y++){
-        for(var x = 0; x < map[0].length; x++){
-            if(map[y][x] == 1){
-                ctx2.fillStyle = "black"
-                ctx2.fillRect(x*(canvas2.width/map[0].length), y*(canvas2.height/map.length), canvas2.width/map[0].length, canvas2.height/map.length)
-            }
-            if(map[y][x] == 2) {
-                ctx2.fillStyle = "red"
-                ctx2.fillRect(x*(canvas2.width/map[0].length), y*(canvas2.height/map.length), canvas2.width/map[0].length, canvas2.height/map.length)
-            }
-
+        requestAnimFrame()
+        for (var y = 0; y < canvas.width * meio * 4; y += 4) {
+            offscreenCanvasPixels.data[y] = 100
+            offscreenCanvasPixels.data[y + 1] = 100
+            offscreenCanvasPixels.data[y + 2] = 255
+            offscreenCanvasPixels.data[y + 3] = 255
         }
-    }
-    ctx2.fillStyle = "green"
-    ctx2.fillRect(s.x*(canvas2.width/map[0].length), s.y*(canvas2.height/map.length), canvas2.width/map[0].length, canvas2.height/map.length)
-    for(var y = 0; y<s.tamanho; y++){
-        ctx2.fillRect(s.tailx[y]*(canvas2.width/map[0].length), s.taily[y]*(canvas2.height/map.length), canvas2.width/map[0].length, canvas2.height/map.length)
-    }
+        if (direita == false && esquerda == false && move == false) s.update()
+        if (direita == true) pa = fixAngle(pa - (Math.PI / 2 / 10))
+        if (pa - (Math.PI / 2 / 10) < s.targetAngle && pa + (Math.PI / 2 / 10) > s.targetAngle) {
+            direita = false
+            pa = s.targetAngle
+        }
+        if (esquerda == true) pa = fixAngle(pa + (Math.PI / 2 / 30))
+        if (pa + (Math.PI / 2 / 10) > s.targetAngle && pa - (Math.PI / 2 / 10) < s.targetAngle) {
+            esquerda = false
+            pa = s.targetAngle
+        }
+        if (move == true) {
+            px += s.dir[0] * 10
+            py += s.dir[1] * 10
+        }
+        if (Math.floor(px / tile) == s.x && Math.floor(py / tile) == s.y) move = false
 
-    ctx.font = "12px Arial"
-    ctx.fillText("fps: "+Math.floor(fps), 0, 12)
-    t--
+
+        Ray()
+        ctx.putImageData(offscreenCanvasPixels, 0, 0);
+
+        ctx2.clearRect(0, 0, canvas2.width, canvas2.height)
+        for (var y = 0; y < map.length; y++) {
+            for (var x = 0; x < map[0].length; x++) {
+                if (map[y][x] == 1) {
+                    ctx2.fillStyle = "black"
+                    ctx2.fillRect(x * (canvas2.width / map[0].length), y * (canvas2.height / map.length), canvas2.width / map[0].length, canvas2.height / map.length)
+                }
+                if (map[y][x] == 2) {
+                    ctx2.fillStyle = "red"
+                    ctx2.fillRect(x * (canvas2.width / map[0].length), y * (canvas2.height / map.length), canvas2.width / map[0].length, canvas2.height / map.length)
+                }
+
+            }
+        }
+        ctx2.fillStyle = "green"
+        ctx2.fillRect(s.x * (canvas2.width / map[0].length), s.y * (canvas2.height / map.length), canvas2.width / map[0].length, canvas2.height / map.length)
+        for (var y = 0; y < s.tamanho; y++) {
+            map[s.taily[y]][s.tailx[y]] = 3
+            ctx2.fillRect(s.tailx[y] * (canvas2.width / map[0].length), s.taily[y] * (canvas2.height / map.length), canvas2.width / map[0].length, canvas2.height / map.length)
+        }
+
+        ctx.font = "12px Arial"
+        ctx.fillText("fps: " + Math.floor(fps), 0, 12)
+        ctx.fillText("pontos:" + s.ponto, canvas.width / 2, 12)
+    }
+    if(cena == "gameover") {
+        ctx.fillStyle = "white"
+        ctx.fillRect(gameoverx, gameovery, 10, 10)
+        gameovery += gameovervel
+        if(gameovery > canvas.height || gameovery < 0){
+            gameoverx += 10
+            gameovervel = -gameovervel
+        }
+        ctx.fillStyle = "red"
+        ctx.font = "30px Arial";
+        ctx.textAlign = "center"
+        ctx.fillText("PERDEU OTARIO", canvas.width / 2, canvas.height / 2)
+
+        ctx.fillRect(150, 300, 200, 70)
+        ctx.fillStyle = "black"
+        ctx.font = "24px Arial";
+        ctx.fillText("reinicia o site", canvas.width/2, canvas.height/2 + 50)
+        ctx.fillText("pontos:" + s.ponto, canvas.width / 2, 24)
+    }
 }
 const s = new Snake()
-window.addEventListener("keydown", s.input)
+px = (s.x * tile) + (tile/2)
+py = (s.y * tile) + (tile/2)
+function input(e){
+    if (e.key == "a"){
+        left = true
+    }
+    if (e.key == "d"){
+        right = true
+    }
+}
+function toca(event){
+    var x = event.targetTouches[0].pageX
+    var y = event.targetTouches[0].pageY
+    if(y > canvas.height/2 && x < canvas.width/2) {
+        left = true
+    }
+    else if (y > canvas.height/2 && x > canvas.width/2){
+        right = true
+    }
+}
+window.addEventListener("keydown", input, false)
+canvas.addEventListener("touchstart", toca, {passive: false})
 setInterval(main, 10)
