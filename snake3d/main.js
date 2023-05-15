@@ -449,10 +449,13 @@ function toca(event){
    //if(x > canvas.width/2) {
     //    right = true
     //}
-    if (x < canvas.width/2){
+    if (x < window.innerWidth/2){
         left = true
+    }
+    if (x > window.innerWidth/2){
+        right = true
     }
 }
 window.addEventListener("keydown", input, false)
-canvas.addEventListener("touchstart", toca, {passive: false})
+window.addEventListener("touchstart", toca, {passive: false})
 setInterval(main, 10)
