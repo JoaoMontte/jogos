@@ -449,7 +449,7 @@ function toca(event){
    //if(x > canvas.width/2) {
     //    right = true
     //}
-    else if (x < canvas.width/2){
+    if (x < canvas.width/2){
         left = true
     }
 }
