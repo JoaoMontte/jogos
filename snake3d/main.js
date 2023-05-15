@@ -446,9 +446,9 @@ function input(e){
 function toca(event){
     var x = event.targetTouches[0].pageX
     var y = event.targetTouches[0].pageY
-    if(x > canvas.width/2) {
-        right = true
-    }
+   //if(x > canvas.width/2) {
+    //    right = true
+    //}
     else if (x < canvas.width/2){
         left = true
     }
