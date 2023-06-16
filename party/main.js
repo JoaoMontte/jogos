@@ -7,7 +7,7 @@ var globalColor = "rgb(255, 0, 0)"
 function fixAngle(a){if(a < 0)a+=Math.PI*2; if(a > Math.PI*2)a-=Math.PI*2; return a}
 
 class Player{
-    constructor(x, y){
+    constructor(x, y, n){
         this.x = x
         this.y = y
         this.speed = 5
@@ -15,6 +15,7 @@ class Player{
         this.move = false
         this.angle = 0
         this.angleSpeed = 0.1
+        this.n = n
     }
     update(){
         if(this.move){
@@ -30,6 +31,9 @@ class Player{
         ctx.beginPath()
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2)
         ctx.fill()
+        ctx.fillStyle = "white"
+        ctx.font = "20px serif"
+        ctx.fillText(String.fromCharCode(65+this.n), this.x-this.radius/2, this.y+this.radius/2)
         ctx.beginPath()
         ctx.moveTo(this.x, this.y)
         ctx.lineTo(this.x+Math.cos(this.angle)*10, this.y+Math.sin(this.angle)*10)
@@ -49,11 +53,11 @@ function main(){
 function butao(){
     player = []
     for(var i = 0; i < playerNumber.value; i++){
-        player.push(new Player(Math.floor(Math.random()*canvas.width), Math.floor(Math.random()*canvas.height)))
+        player.push(new Player(Math.floor(Math.random()*canvas.width), Math.floor(Math.random()*canvas.height), i))
     }
 }
 
-var player = [new Player(250, 250), new Player(100, 100)]
+var player = [new Player(250, 250, 0), new Player(100, 100, 1)]
 
 function down(e){
     for(var i=0; i < player.length; i++){
