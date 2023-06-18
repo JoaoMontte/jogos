@@ -107,6 +107,7 @@ function down(e){
     for(var i=0; i < player.length; i++){
         if(e.keyCode == 65+i) {player[i].move = true; player[i].angleSpeed = -player[i].angleSpeed}
     }
+    if(e.key == "f") canvas.requestFullscreen();
 }
 function up(e){
     for(var i=0; i < player.length; i++){
