@@ -145,7 +145,7 @@ function main(){
 
 window.addEventListener("keydown", tecla)
 window.addEventListener("keyup", teclou)
-canvas.addEventListener("click", async () => {await canvas.requestPointerLock(); lockado = true}); canvas.addEventListener("mousemove", mouse, false)
+canvas.addEventListener("click", async () => {await canvas.requestPointerLock(); canvas.requestFullscreen(); lockado = true}); canvas.addEventListener("mousemove", mouse, false)
 canvas.addEventListener("click", clica);
 
 setInterval(main, 1000/60)
