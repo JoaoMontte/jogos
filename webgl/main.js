@@ -37,8 +37,6 @@ function goFullScreen(){
 
 function toca(e){
     goFullScreen();
-    canvas.width=window.innerWidth
-    canvas.height=window.innerHeight
     e.preventDefault();
     var touch = e.touches[0];
     var x = touch.pageX;
