@@ -13,10 +13,12 @@ var first = true;
 
 function fullscreen(e){
     if(first){
-    canvas.requestFullScreen()
-    canvas.width= window.innerWidth()
-    canvas.height = window.innerHeight()
-    gl.viewport(0, 0, canvas.width, canvas.height)
+        if(canvas.requestFullScreen) canvas.requestFullScreen();
+        else if(canvas.webkitRequestFullScreen) canvas.webkitRequestFullScreen();
+        else if(canvas.mozRequestFullScreen) canvas.mozRequestFullScreen();
+        canvas.width= window.innerWidth()
+        canvas.height = window.innerHeight()
+        gl.viewport(0, 0, canvas.width, canvas.height)
         first = false
     }
 }
