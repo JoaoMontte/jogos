@@ -9,11 +9,16 @@ const gl = canvas.getContext("webgl")
 canvas.width= window.innerWidth
 canvas.height= window.innerHeight
 
+var first = true;
+
 function fullscreen(e){
+    if(first){
     canvas.requestFullScreen()
     canvas.width= window.innerWidth()
     canvas.height = window.innerHeight()
     gl.viewport(0, 0, canvas.width, canvas.height)
+        first = false
+    }
 }
 function main(){
     var program = new Shader().setup(gl)
