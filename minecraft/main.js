@@ -9,6 +9,12 @@ const gl = canvas.getContext("webgl")
 canvas.width= window.innerWidth
 canvas.height= window.innerHeight
 
+function fullscreen(e){
+    canvas.requestFullScreen()
+    canvas.width= window.innerWidth()
+    canvas.height = window.innerHeight()
+    gl.viewport(0, 0, canvas.width, canvas.height)
+}
 function main(){
     var program = new Shader().setup(gl)
     
@@ -111,5 +117,6 @@ function main(){
     requestAnimationFrame(loop)
 }
 
+addEventListener("touchstart", fullscreen)
 const cam = new Camera
 main()
