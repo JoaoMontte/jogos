@@ -21,7 +21,7 @@ export class Camera{
         window.addEventListener("touchmove", this.tocando, false)
 
     }
-    fullscreen(){ var el = document.getElementById('canvas');   if(el.webkitRequestFullScreen) { el.webkitRequestFullScreen(); } else { el.mozRequestFullScreen(); } }
+    fullscreen(){ if(canvas.requestFullscreen){canvas.requestFullscreen} else if(canvas.webkitRequestFullScreen) { canvas.webkitRequestFullScreen(); } else { canvas.mozRequestFullScreen(); } }
     toca(e){
         if(this.first){
         this.fullscreen()
