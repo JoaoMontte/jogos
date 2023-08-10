@@ -119,7 +119,7 @@ function main(){
             canvas.width= window.innerWidth
             canvas.height= window.innerHeight
             gl.viewport(0, 0, window.innerWidth, window.innerHeight)
-            matrix.projUpdate()
+            matrix.projUpdate(gl)
         }
         cam.update()
         matrix.updateView(cam, gl)
