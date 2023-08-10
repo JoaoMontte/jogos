@@ -8,6 +8,18 @@ const gl = canvas.getContext("webgl")
 
 canvas.width= window.innerWidth
 canvas.height= window.innerHeight
+var first = true
+
+function fullscreen(){ if(canvas.requestFullScreen){canvas.requestFullScreen} else if(canvas.webkitRequestFullScreen) { canvas.webkitRequestFullScreen(); } else { canvas.mozRequestFullScreen(); } }
+function toca(e){
+        if(first){
+        fullscreen()
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+            gl.viewport(0, 0, canvas.width, canvas.height)
+     
+            first = false
+        }
 
 function main(){
     var program = new Shader().setup(gl)
@@ -118,6 +130,6 @@ function main(){
     }
     requestAnimationFrame(loop)
 }
-
+addEventListener("touchstart", toca)
 const cam = new Camera
 main()
