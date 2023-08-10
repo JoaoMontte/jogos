@@ -114,7 +114,13 @@ function main(){
     gl.clearColor(0.4, 0.7, 1.0, 1.0)
     var loop = function(){
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-        
+
+        if(canvas.width != window.innerwidth || canvas.height != window.innerHeight){
+            canvas.width= window.innerWidth
+            canvas.height= window.innerHeight
+            gl.viewport(0, 0, window.innerWidth, window.innerHeight)
+            matrix.projUpdate()
+        }
         cam.update()
         matrix.updateView(cam, gl)
         
