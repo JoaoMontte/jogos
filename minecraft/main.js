@@ -28,7 +28,7 @@ function main(){
     //buffer
     var triangleVertices = []
     
-    var size = 1000;
+    var size = 200;
     noise.seed(Math.random());
     cam.x = size/2
     cam.z = size/2
