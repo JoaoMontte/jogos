@@ -30,50 +30,57 @@ function main(){
     
     var size = 100;
     noise.seed(Math.random());
-    
+    cam.x = size/2
+    cam.z = size/2
+    cam.y = Math.floor(noise.perlin2(cam.x/30, cam.z/30)*20) + 2
+
     for(var z= 0; z < size; z++){
         for(var x = 0; x < size; x++){
             var h = Math.floor(noise.perlin2(x/30, z/30)*20)
-    triangleVertices.push(0.0+x, 0.0+h, 1.0+z,    0.25, 0.5, //canto inferior esquerdo
+    if(h > Math.floor(noise.perlin2(x/30, (z+1)/30)*20)){triangleVertices.push(0.0+x, 0.0+h, 1.0+z,    0.25, 0.5, //canto inferior esquerdo
     1.0+x, 0.0+h, 1.0+z,   0.5, 0.5, //canto inferior direito
     0.0+x, 1.0+h, 1.0+z,   0.25, 0.25,//canto superior esquerdo
     
     1.0+x, 0.0+h, 1.0+z,   0.5, 0.5,
     0.0+x, 1.0+h, 1.0+z,   0.25, 0.25,
-    1.0+x, 1.0+h, 1.0+z,   0.5, 0.25,  //canto superior direito
-    
-    1.0+x, 0.0+h, 1.0+z,   0.5, 0.5,
+    1.0+x, 1.0+h, 1.0+z,   0.5, 0.25,)}  //canto superior direito
+            
+    if(h > Math.floor(noise.perlin2((x+1)/30, (z)/30)*20)){        
+    triangleVertices.push(1.0+x, 0.0+h, 1.0+z,   0.5, 0.5,
     1.0+x, 1.0+h, 1.0+z,   0.5, 0.25,
     1.0+x, 0.0+h, 0.0+z,   0.75,0.5,
     
     1.0+x, 1.0+h, 1.0+z,   0.5, 0.25,
     1.0+x, 0.0+h, 0.0+z,   0.75,0.5, //canto inferior direito
-    1.0+x, 1.0+h, 0.0+z,   0.75,0.25, //canto superior direito
+    1.0+x, 1.0+h, 0.0+z,   0.75,0.25,) }//canto superior direito
     
-    0.0+x, 0.0+h, 1.0+z,   0.25, 0.5,
+            if(h > Math.floor(noise.perlin2((x-1)/30, (z)/30)*20)){
+    triangleVertices.push(0.0+x, 0.0+h, 1.0+z,   0.25, 0.5,
     0.0+x, 1.0+h, 1.0+z,   0.25, 0.25,
     0.0+x, 0.0+h, 0.0+z,   0.0, 0.5,
     
     0.0+x, 1.0+h, 1.0+z,   0.25, 0.25, 
     0.0+x, 0.0+h, 0.0+z,   0.0, 0.5,
-    0.0+x, 1.0+h, 0.0+z,   0.0, 0.25,
+    0.0+x, 1.0+h, 0.0+z,   0.0, 0.25)}
+            
+            if(h > Math.floor(noise.perlin2((x)/30, (z-1)/30)*20)){
     
-    0.0+x, 0.0+h, 0.0+z,    0.75, 0.5, //canto inferior esquerdo
+    triangleVertices.push(0.0+x, 0.0+h, 0.0+z,    0.75, 0.5, //canto inferior esquerdo
     1.0+x, 0.0+h, 0.0+z,   1.0, 0.5, //canto inferior direito
     0.0+x, 1.0+h, 0.0+z,   0.75, 0.25,//canto superior esquerdo
     
     1.0+x, 0.0+h, 0.0+z,   1.0, 0.5,
     0.0+x, 1.0+h, 0.0+z,   0.75, 0.25,
-    1.0+x, 1.0+h, 0.0+z,   1.0, 0.25, //canto superior direito
+    1.0+x, 1.0+h, 0.0+z,   1.0, 0.25,)} //canto superior direito
     
-    
+    triangleVertices.push(
     0.0+x, 1.0+h, 1.0+z,   0.25, 0.25,
     1.0+x, 1.0+h, 1.0+z,   0.5, 0.25,
     0.0+x, 1.0+h, 0.0+z,   0.25, 0.0,
     
     1.0+x, 1.0+h, 1.0+z,   0.5, 0.25,
     0.0+x, 1.0+h, 0.0+z,   0.25, 0.0,
-    1.0+x, 1.0+h, 0.0+z,   0.5, 0.0,
+    1.0+x, 1.0+h, 0.0+z,   0.5, 0.0,)
     
     /**0.0+x, 0.0+h, 1.0+z,   0.25, 0.5,
     1.0+x, 0.0+h, 1.0+z,   0.5, 0.5,
@@ -81,7 +88,7 @@ function main(){
     
     1.0+x, 0.0+h, 1.0+z,   0.5, 0.5,
     0.0+x, 0.0+h, 0.0+z,   0.25, 0.75,
-    1.0+x, 0.0+h, 0.0+z,   0.5, 0.75**/)
+    1.0+x, 0.0+h, 0.0+z,   0.5, 0.75)**/
         }
     }
     
