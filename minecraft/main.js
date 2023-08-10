@@ -29,6 +29,7 @@ function main(){
     var triangleVertices = []
     
     var size = 100;
+    noise.seed(Math.random());
     
     for(var z= 0; z < size; z++){
         for(var x = 0; x < size; x++){
