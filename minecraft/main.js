@@ -20,7 +20,7 @@ function toca(e){
      
             first = false
         }
-
+                }
 function main(){
     var program = new Shader().setup(gl)
     
