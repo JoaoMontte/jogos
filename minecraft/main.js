@@ -28,11 +28,11 @@ function main(){
     //buffer
     var triangleVertices = []
     
-    var size = 100;
+    var size = 1000;
     noise.seed(Math.random());
     cam.x = size/2
     cam.z = size/2
-    cam.y = Math.floor(noise.perlin2(cam.x/30, cam.z/30)*20) + 2
+    cam.y = Math.floor(noise.perlin2(cam.x/30, cam.z/30)*20) + 4
 
     for(var z= 0; z < size; z++){
         for(var x = 0; x < size; x++){
