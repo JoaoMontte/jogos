@@ -120,6 +120,7 @@ function main(){
     
     gl.clearColor(0.4, 0.7, 1.0, 1.0)
     var loop = function(){
+        gl.enable(gl.DEPTH_TEST)
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
         if(canvas.width != window.innerwidth || canvas.height != window.innerHeight){
