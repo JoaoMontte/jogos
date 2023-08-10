@@ -9,19 +9,6 @@ const gl = canvas.getContext("webgl")
 canvas.width= window.innerWidth
 canvas.height= window.innerHeight
 
-var first = true;
-
-function fullscreen(e){
-    if(first){
-        if(canvas.requestFullScreen) canvas.requestFullScreen();
-        else if(canvas.webkitRequestFullScreen) canvas.webkitRequestFullScreen();
-        else if(canvas.mozRequestFullScreen) canvas.mozRequestFullScreen();
-        canvas.width= window.innerWidth()
-        canvas.height = window.innerHeight()
-        gl.viewport(0, 0, canvas.width, canvas.height)
-        first = false
-    }
-}
 function main(){
     var program = new Shader().setup(gl)
     
@@ -29,11 +16,10 @@ function main(){
     var triangleVertices = []
     
     var size = 200;
-    noise.seed(Math.random());
+    noise.seed(Math.random())
     cam.x = size/2
-    cam.z = size/2
-    cam.y = Math.floor(noise.perlin2(cam.x/30, cam.z/30)*20) + 4
-
+    cam.z= size/2
+    cam.y = Math.floor(noise.perlin2(size/2/30, size/2/30)*30)+4
     for(var z= 0; z < size; z++){
         for(var x = 0; x < size; x++){
             var h = Math.floor(noise.perlin2(x/30, z/30)*20)
@@ -122,13 +108,7 @@ function main(){
     var loop = function(){
         gl.enable(gl.DEPTH_TEST)
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-
-        if(canvas.width != window.innerwidth || canvas.height != window.innerHeight){
-            canvas.width= window.innerWidth
-            canvas.height= window.innerHeight
-            gl.viewport(0, 0, window.innerWidth, window.innerHeight)
-            matrix.projUpdate(gl)
-        }
+        
         cam.update()
         matrix.updateView(cam, gl)
         
@@ -139,6 +119,5 @@ function main(){
     requestAnimationFrame(loop)
 }
 
-addEventListener("touchstart", fullscreen)
 const cam = new Camera
 main()

@@ -24,7 +24,6 @@ export default class Shader{
         ].join("\n")
     }
     setup(gl){
-        gl.enable(gl.DEPTH_TEST)
         gl.viewport(0, 0, canvas.width, canvas.height)
         var vertexShader = gl.createShader(gl.VERTEX_SHADER)
         var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)

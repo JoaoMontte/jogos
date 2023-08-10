@@ -5,7 +5,7 @@ var startX = 0; var startY = 0;
 export class Camera{
     constructor(){
         this.x = 50
-        this.y = 3
+        this.y = 20
         this.z = 50
         this.angleX = 1.5
         this.angleY = 0
@@ -19,11 +19,9 @@ export class Camera{
         window.addEventListener("touchstart", this.toca, false)
         window.addEventListener("touchend", this.tocou, false)
         window.addEventListener("touchmove", this.tocando, false)
-        window.addEventListener("keydown", this.tecla, false)
-        window.addEventListener("keyup", this.teclou, false)
 
     }
-    fullscreen(){ if(canvas.requestFullScreen){canvas.requestFullScreen} else if(canvas.webkitRequestFullScreen) { canvas.webkitRequestFullScreen(); } else { canvas.mozRequestFullScreen(); } }
+    fullscreen(){ if(canvas.requestFullscreen){canvas.requestFullscreen} else if(canvas.webkitRequestFullScreen) { canvas.webkitRequestFullScreen(); } else { canvas.mozRequestFullScreen(); } }
     toca(e){
         if(this.first){
         this.fullscreen()
@@ -79,18 +77,6 @@ export class Camera{
             angleyis = (startY-y)/1000
             }
         }
-    }
-    tecla(e){
-        if(e.key == "w") front = true
-        if(e.key == "s") back = true
-        if(e.key == "a") left = true
-        if(e.key == "d") right = true
-    }
-    teclou(e){
-        if(e.key == "w") front = false
-        if(e.key == "s") back = false
-        if(e.key == "a") left = false
-        if(e.key == "d") right = false
     }
     fixAngle(a){if(a<0){a+=3.14*2}; if(a>3.14*2){a-=3.14*2};return a}
     update(){
