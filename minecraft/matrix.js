@@ -20,4 +20,9 @@ export default class Matrix{
         gl.uniformMatrix4fv(this.viewLocation, gl.FALSE, this.viewMatrix)
         
     }
+    projUpdate(gl){
+mat4.perspective(this.projMatrix, 3.14/3, canvas.width/canvas.height, 0.1, 100.0)
+        gl.uniformMatrix4fv(this.projLocation, gl.FALSE, this.projMatrix)
+
+    }
 }
