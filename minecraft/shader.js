@@ -9,7 +9,7 @@ export default class Shader{
         "uniform mat4 view;",
         "uniform mat4 proj;",
         "void main(){",
-        "gl_Position = proj * view * model * vec4(vertPosition, 1.0);",
+        "gl_Position = proj * view * vec4(vertPosition, 1.0);",
         "fragTexCoord = vertTexCoord;",
         "}"
         ].join("\n")
