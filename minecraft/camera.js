@@ -19,9 +19,27 @@ export class Camera{
         window.addEventListener("touchstart", this.toca, false)
         window.addEventListener("touchend", this.tocou, false)
         window.addEventListener("touchmove", this.tocando, false)
+        window.addEventListener("keydown", this.tecla, false)
+        window.addEventListener("keyup", this.teclou, false)
 
     }
     fullscreen(){ if(canvas.requestFullScreen){canvas.requestFullScreen} else if(canvas.webkitRequestFullScreen) { canvas.webkitRequestFullScreen(); } else { canvas.mozRequestFullScreen(); } }
+    tecla(e){
+        if(e.key == "w") front = true;
+        if(e.key == "s") back = true;
+        if(e.key == "a") left = true;
+        if(e.key == "d") right = true;
+        if(e.key == "j") anglexis = 10;
+        if(e.key == "l") anglexis = -10;
+    }
+    teclou(e){
+        if(e.key == "w") front = false;
+        if(e.key == "s") back = false;
+        if(e.key == "a") left = false;
+        if(e.key == "d") right = false;
+        if(e.key == "j") anglexis = 0;
+        if(e.key == "l") anglexis = 0;
+    }
     toca(e){
         if(this.first){
         this.fullscreen()
