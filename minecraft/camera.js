@@ -21,16 +21,27 @@ export class Camera{
         window.addEventListener("touchmove", this.tocando, false)
         window.addEventListener("keydown", this.tecla, false)
         window.addEventListener("keyup", this.teclou, false)
+        window.addEventListener("mousedown", this.clicou, false)
 
     }
-    fullscreen(){ if(canvas.requestFullScreen){canvas.requestFullScreen} else if(canvas.webkitRequestFullScreen) { canvas.webkitRequestFullScreen(); } else { canvas.mozRequestFullScreen(); } }
+    fullscreen(){ canvas.requestFullScreen; if(canvas.requestFullScreen){canvas.requestFullScreen} else if(canvas.webkitRequestFullScreen) { canvas.webkitRequestFullScreen(); } else { canvas.mozRequestFullScreen(); } }
+    clicou(e){
+        if(this.first){
+        this.fullscreen()
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+            gl.viewport(0, 0, canvas.width, canvas.height)
+     
+            this.first = false
+        }
+    }
     tecla(e){
         if(e.key == "w") front = true;
         if(e.key == "s") back = true;
         if(e.key == "a") left = true;
         if(e.key == "d") right = true;
-        if(e.key == "j") anglexis = 10;
-        if(e.key == "l") anglexis = -10;
+        if(e.key == "j") anglexis = 0.5;
+        if(e.key == "l") anglexis = -0.5;
     }
     teclou(e){
         if(e.key == "w") front = false;
