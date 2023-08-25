@@ -40,8 +40,8 @@ export class Camera{
         if(e.key == "s") back = true;
         if(e.key == "a") left = true;
         if(e.key == "d") right = true;
-        if(e.key == "j") anglexis = 0.5;
-        if(e.key == "l") anglexis = -0.5;
+        if(e.key == "j") anglexis = 0.01;
+        if(e.key == "l") anglexis = -0.01;
     }
     teclou(e){
         if(e.key == "w") front = false;
