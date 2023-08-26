@@ -132,5 +132,6 @@ function main(){
     requestAnimationFrame(loop)
 }
 addEventListener("touchstart", toca)
+addEventListener("keydown", toca)
 const cam = new Camera
 main()
