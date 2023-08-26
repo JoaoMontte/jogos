@@ -6,16 +6,17 @@ import Matrix from "./matrix.js"
 const  canvas = document.getElementById("canvas")
 const gl = canvas.getContext("webgl")
 
-canvas.width= window.innerWidth
-canvas.height= window.innerHeight
+canvas.width= screen.width
+canvas.height= window.height
 var first = true
 
 function fullscreen(){ if(canvas.requestFullScreen){canvas.requestFullScreen} else if(canvas.webkitRequestFullScreen) { canvas.webkitRequestFullScreen(); } else { canvas.mozRequestFullScreen(); } }
 function toca(e){
+        fullscreen()
         if(first){
         fullscreen()
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
+        canvas.width = screen.width
+        canvas.height = screen.height
             gl.viewport(0, 0, canvas.width, canvas.height)
      
             first = false
