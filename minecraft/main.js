@@ -12,7 +12,6 @@ var first = true
 
 function fullscreen(){ if(canvas.requestFullScreen){canvas.requestFullScreen} else if(canvas.webkitRequestFullScreen) { canvas.webkitRequestFullScreen(); } else { canvas.mozRequestFullScreen(); } }
 function toca(e){
-        fullscreen()
         if(first){
         fullscreen()
         canvas.width = screen.width
