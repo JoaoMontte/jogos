@@ -9,7 +9,7 @@ export default class Matrix{
         this.projMatrix= new Float32Array(16)
         mat4.identity(this.modelMatrix)
         mat4.lookAt(this.viewMatrix, [0, 0, 0], [0, 0, 0], [0, 1, 0])
-        mat4.perspective(this.projMatrix, 3.14/3, canvas.width/canvas.height, 0.1, 1000.0)
+        mat4.perspective(this.projMatrix, 3.14/3, canvas.width/canvas.height, 0.1, 10.0)
         
         gl.uniformMatrix4fv(this.modelLocation, gl.FALSE, this.modelMatrix)
         gl.uniformMatrix4fv(this.viewLocation, gl.FALSE, this.viewMatrix)
