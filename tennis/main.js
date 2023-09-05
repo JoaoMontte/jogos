@@ -21,7 +21,6 @@ const camera = new THREE.PerspectiveCamera( 75, width/height, 0.1, 100 );
 
 const renderer = new THREE.WebGLRenderer({canvas});
 renderer.setSize( width, height );
-canvas.style="padding: 0; margin: auto; display: block; position: absolute; top: 0; bottom: 0; left: 0; right: 0;"
 
 const geometry = new THREE.IcosahedronGeometry( 1, 5);
 const texture = new THREE.TextureLoader().load( "fone.jpeg" );
@@ -62,7 +61,7 @@ plane.position.set(0,-1,0)
 camera.position.set(0,8,8)
 
 bola.position.set(0,6,0)
-function fullscreen(){ if(canvas.requestFullScreen){canvas.requestFullScreen} }
+function fullscreen(){canvas.requestFullScreen}
 function ajeita(){
     width = screen.width
     height = screen.height
