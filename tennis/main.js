@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 const canvas = document.getElementById("canvas")
+canvas.style = "position: fixed; top: 0; left: 0; outline: none;"
 
 var width = 480
 var height = 270
