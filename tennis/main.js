@@ -63,17 +63,17 @@ plane.position.set(0,-1,0)
 camera.position.set(0,8,8)
 
 bola.position.set(0,6,0)
-function fullscreen(){ canvas.requestFullScreen}
+function fullscreen(){ canvas.requestFullscreen}
 function ajeita(){
-    width = screen.width
-    height = screen.height
+    width = window.innerWidth
+    height = window.innerHeight
     camera.aspect = width/height
     camera.updateProjectionMatrix()
     renderer.setSize( width, height );
 }
 function toca(e){
     fullscreen()
-    if(width != screen.width){
+    if(width != window.innerWidth){
         ajeita()
     }
     for(var i = 0; i<e.touches.length;i++){
