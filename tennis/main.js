@@ -2,8 +2,8 @@ import * as THREE from 'three';
 const canvas = document.getElementById("canvas")
 canvas.style = "position: fixed; top: 0; left: 0; outline: none;"
 
-var width = 480
-var height = 270
+var width = window.innerWidth
+var height = window.innerHeight
 
 var leftX = 0
 var leftY = 0
@@ -22,6 +22,7 @@ scene.background = new THREE.CubeTextureLoader() 	.setPath( 'textures/' ) 	.load
 const camera = new THREE.PerspectiveCamera( 75, width/height, 0.1, 100 );
 
 const renderer = new THREE.WebGLRenderer({canvas});
+renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize( width, height )
 
 const geometry = new THREE.IcosahedronGeometry( 1, 5);
@@ -63,17 +64,17 @@ plane.position.set(0,-1,0)
 camera.position.set(0,8,8)
 
 bola.position.set(0,6,0)
-function fullscreen(){ canvas.requestFullscreen}
+function fullscreen(){ canvas.requestFullScreen()}
 function ajeita(){
-    width = window.innerWidth
-    height = window.innerHeight
+    width = screen.width
+    height = screen.height
     camera.aspect = width/height
     camera.updateProjectionMatrix()
     renderer.setSize( width, height );
 }
 function toca(e){
     fullscreen()
-    if(width != window.innerWidth){
+    if(width != screen.width){
         ajeita()
     }
     for(var i = 0; i<e.touches.length;i++){
