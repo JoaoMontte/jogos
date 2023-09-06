@@ -2,8 +2,8 @@ import * as THREE from 'three';
 const canvas = document.getElementById("canvas")
 canvas.style = "position: fixed; top: 0; left: 0; outline: none;"
 
-var width = window.innerWidth
-var height = window.innerHeight
+var width = 480
+var height = 270
 
 var leftX = 0
 var leftY = 0
@@ -17,12 +17,14 @@ var velocity = new THREE.Vector3(0,0,0)
 
 const gravity = 0.003
 
+var choice = [-1, 1]
+var pausa = true
+
 const scene = new THREE.Scene();
 scene.background = new THREE.CubeTextureLoader() 	.setPath( 'textures/' ) 	.load( [ 				'1.jpg', 				'1.jpg', 				'1.jpg', 				'1.jpg', 				'1.jpg', 				'1.jpg' 			] );
 const camera = new THREE.PerspectiveCamera( 75, width/height, 0.1, 100 );
 
 const renderer = new THREE.WebGLRenderer({canvas});
-renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize( width, height )
 
 const geometry = new THREE.IcosahedronGeometry( 1, 5);
@@ -63,19 +65,20 @@ plane.position.set(0,-1,0)
 
 camera.position.set(0,8,8)
 
-bola.position.set(0,6,0)
+bola.position.set(0,3,0)
 function fullscreen(){ canvas.requestFullScreen()}
 function ajeita(){
-    width = screen.width
-    height = screen.height
+    width = window.innerWidth
+    height = window.innerHeight
     camera.aspect = width/height
     camera.updateProjectionMatrix()
     renderer.setSize( width, height );
 }
 function toca(e){
-    fullscreen()
-    if(width != screen.width){
-        ajeita()
+    if(pausa){
+        pausa = false
+        velocity.set(0.09 + Math.random()/1000,0.042+Math.random()/1000,0)
+        velocity.x *= choice[Math.floor(Math.random()*2)]
     }
     for(var i = 0; i<e.touches.length;i++){
         if(e.touches[i].clientX < width/8 && e.touches[i].clientY < height /8) bola.position.set(0,8,0)
@@ -110,7 +113,7 @@ function animate() {
     requestAnimationFrame( animate );
     
     camera.lookAt(bola.position)
-    camera.position.x = bola.position.x
+    camera.position.x += (bola.position.x-camera.position.x)/10
     
     var hold = new THREE.Vector3(player1Vel.x, player1Vel.y, player1Vel.z)
     sphere.position.add(hold.multiplyScalar(0.15))
@@ -121,6 +124,7 @@ function animate() {
     if(player2Vel.length() != 0)player2.rotation.y = Math.atan2(player2Vel.z, -player2Vel.x)
     
     velocity.y -= gravity
+    if(pausa) velocity.set(0,0,0)
     bola.position.add(velocity)
     bola.rotation.set(velocity.x, velocity.y, velocity.z)
     
@@ -134,6 +138,21 @@ function animate() {
     var distancia = new THREE.Vector3(0,0,0).subVectors(bola.position, player2.position)
     if(distancia.length()<=1.5) velocity = distancia.normalize().multiplyScalar(0.2)
     
+    //colisao com a rede
+    //if(bola.position.x >= -0.5 && bola.position.x <= 0.5)
+    var b = 2* bola.position.y
+    var c = bola.position.y**2-0.5**2-bola.position.x**2
+    var delta = b**2 -4*c
+    
+    if(delta >= 1 && delta <= 2) {
+        var y = (b - Math.sqrt(delta))/ 2
+        if(y <= 1 && y >= -1){
+            var distancia = new THREE.Vector3(0,0,0).subVectors(bola.position, new THREE.Vector3(0, y, 0))
+            velocity = distancia.normalize().multiplyScalar(0.2)
+            console.log(y)
+        }
+    }
+    //colisao chao
     
     if(bola.position.y-0.5 <= -1) {velocity.reflect(new THREE.Vector3(0,1,0)); bola.position.y = -0.5}
     if(bola.position.x-0.5 <= -10 || bola.position.x+0.5 >= 10 ) velocity.x = -velocity.x
