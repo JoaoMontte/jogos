@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>só um teste</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div style="float:left; width: 50%" id="primeiro">
+      <canvas style="border: 1px solid black; width: 100%; margin: 0; padding: 0; top: 0; left: 0" ></canvas>
+    </div>
+    <div style="float:right; width: 50%" id="segundo">
+      <textarea onchange="mudou()" style = "width: 100%" rows=30></textarea>
+    </div>
+    <script src="game.js"></script>
+    <script>
+      const canvas = document.querySelector("canvas")
+      canvas.height = canvas.width*9/16
+      const text = document.querySelector("textarea")
+      
+      if(window.innerHeight > window.innerWidth){
+        var primeiro = document.getElementById("primeiro")
+        var segundo = document.getElementById("segundo")
+        primeiro.style = "float: up; height: 50%; width = 100%"
+        segundo.style = "float: down; height: 50%; width = 100%"
+        canvas.width = window.innerWidth
+        canvas.height = canvas.width*9/16
+      }
+      var foda;
+      function mudou(){
+        for (var i = 1; i < 99999; i++) window.clearInterval(i);
+        foda = new Function(text.value)
+        foda()
+      }
+    </script>
+  </body>
+</html>
